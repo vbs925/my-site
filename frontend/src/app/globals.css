@@ -2,15 +2,22 @@
 
 /* CSS Variables for colors, fonts, spacing */
 :root {
-    --color-green-dark: #4C6A50; /* Primary brand color from figma */
+    --color-green-dark: #4C6A50;
     --color-green-mid: #688569;
     --color-white: #ffffff;
     --color-text-main: #1a1a1a;
     --color-text-gray: #6b6b6b;
     --color-gray-light: #f5f5f5;
-    
+
     --font-heading: 'Lora', serif;
     --font-body: 'Inter', sans-serif;
+
+    /* Consistent spacing tokens */
+    --section-padding-x: clamp(1.5rem, 5vw, 4rem);
+    --section-padding-y: clamp(4rem, 8vw, 6rem);
+    --container-max: 1400px;
+    --image-radius: 12px;
+    --gap-md: clamp(2rem, 4vw, 3rem);
 }
 
 /* Reset & Base */
@@ -37,25 +44,28 @@ a {
 h1 {
     font-family: var(--font-heading);
     font-weight: 400;
-    font-size: 3rem; /* Scaled down per user request */
+    font-size: clamp(2rem, 4vw, 3rem);
     line-height: 1.2;
     letter-spacing: -0.01em;
 }
 
 .hero-title {
-    max-width: 500px; /* Reduced width to keep the proportions neat */
+    max-width: 500px;
     font-family: 'Abyssinica SIL', serif;
 }
 
-/* Header & Navbar */
+/* ── Header & Navbar ── */
 .main-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
     background-color: var(--color-green-dark);
     color: var(--color-white);
-    padding: 1.25rem 2rem;
+    padding: 1.1rem var(--section-padding-x);
 }
 
 .header-container {
-    max-width: 1400px;
+    max-width: var(--container-max);
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -64,14 +74,14 @@ h1 {
 
 .logo a {
     font-family: var(--font-heading);
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     font-weight: 500;
 }
 
 .main-nav ul {
     display: flex;
     list-style: none;
-    gap: 2.5rem;
+    gap: 2rem;
 }
 
 .main-nav a {
@@ -85,11 +95,11 @@ h1 {
     opacity: 1;
 }
 
-/* Buttons */
+/* ── Buttons ── */
 .btn-primary-scd {
     background-color: var(--color-white);
     color: var(--color-green-dark);
-    padding: 0.75rem 1.5rem;
+    padding: 0.65rem 1.4rem;
     border-radius: 4px;
     font-size: 0.9rem;
     font-weight: 600;
@@ -104,7 +114,7 @@ h1 {
     display: inline-block;
     background-color: var(--color-green-dark);
     color: var(--color-white);
-    padding: 0.75rem 1.4rem;
+    padding: 0.75rem 1.5rem;
     border-radius: 6px;
     font-size: 0.95rem;
     font-weight: 500;
@@ -120,7 +130,7 @@ h1 {
     background-color: transparent;
     color: var(--color-green-dark);
     border: 1px solid var(--color-green-dark);
-    padding: 0.75rem 1.4rem;
+    padding: 0.75rem 1.5rem;
     border-radius: 6px;
     font-size: 0.95rem;
     font-weight: 500;
@@ -132,22 +142,22 @@ h1 {
     color: var(--color-white);
 }
 
-/* Landing Page Hero Section */
+/* ── Hero Section ── */
 .hero-section {
-    max-width: 1400px;
+    max-width: var(--container-max);
     margin: 0 auto;
-    padding: 5rem 2rem 0; /* Add spacing at the top */
+    padding: var(--section-padding-y) var(--section-padding-x) 0;
 }
 
 .hero-content {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Changed to equal columns for better balance */
-    gap: 3rem; /* Reduced gap slightly */
-    margin-bottom: 4rem;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--gap-md);
+    margin-bottom: clamp(3rem, 6vw, 5rem);
 }
 
 .hero-left {
-    padding-right: 2rem;
+    padding-right: 1.5rem;
 }
 
 .hero-right {
@@ -156,10 +166,12 @@ h1 {
 }
 
 .hero-description {
-    font-size: 1.05rem; /* Scaled down slightly */
-    color: var(--color-text-gray);
-    margin-bottom: 1.5rem;
-    line-height: 1.6;
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 1.05rem;
+    color: #4a4a4a;
+    font-weight: 500;
+    margin-bottom: 1.75rem;
+    line-height: 1.7;
     max-width: 95%;
 }
 
@@ -167,55 +179,64 @@ h1 {
     display: flex;
     gap: 1rem;
     margin-bottom: 1.5rem;
+    flex-wrap: wrap;
 }
 
 .hero-fine-print {
+    font-family: 'Noto Sans', sans-serif;
     font-size: 0.85rem;
     font-style: italic;
-    color: #888;
-    margin-bottom: 3rem;
+    color: #999;
+    margin-bottom: 2.5rem;
 }
 
 .hero-image-wrapper {
-    width: 85%; /* Make the image smaller relative to the column */
-    max-width: 450px;
-    aspect-ratio: 1 / 1; /* Keeps it perfectly square */
-    border-radius: 12px;
+    width: 100%;
+    max-width: 460px;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--image-radius);
     overflow: hidden;
     background-color: var(--color-gray-light);
     position: relative;
-    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
-    margin-top: 1rem; /* slight spacing from the text above */
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    margin-top: 1rem;
 }
 
-/* Image acts as a cover */
 .hero-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    color: transparent; /* hides alt text if image not found to keep layout clean initially */
+    color: transparent;
 }
 
-/* Stats Section */
+/* ── Stats Section ── */
+.stats-wrapper {
+    background-color: #DEE3DE;
+    width: 100%;
+}
+
 .hero-stats {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 3rem 4rem;
-    margin-top: 2rem;
-    background-color: transparent;
-    border-top: 1px solid #eaeaea; /* Light separator */
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding: 2.5rem var(--section-padding-x);
+    max-width: var(--container-max);
+    margin: 0 auto;
 }
 
 .stat-item {
     text-align: center;
+    flex: 1;
+    min-width: 100px;
 }
 
 .stat-number {
     display: block;
     font-family: var(--font-heading);
-    font-size: 3rem;
+    font-size: clamp(2rem, 4vw, 3rem);
     color: var(--color-text-main);
     line-height: 1;
     margin-bottom: 0.5rem;
@@ -223,41 +244,44 @@ h1 {
 
 .stat-desc {
     display: block;
+    font-family: 'Noto Sans', sans-serif;
     font-size: 0.85rem;
     color: var(--color-text-gray);
     line-height: 1.4;
     white-space: nowrap;
-    margin: 0 auto;
 }
 
-/* Gallery Section */
+/* ── Gallery Section ── */
 .gallery-section {
-    max-width: 1400px;
-    margin: 5rem auto;
-    padding: 2rem 0;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: var(--section-padding-y) var(--section-padding-x);
 }
 
 .gallery-heading {
     font-family: var(--font-heading);
-    font-size: 2.5rem;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
     font-weight: 400;
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
     text-align: center;
 }
 
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
 }
 
 .gallery-item {
     display: flex;
     flex-direction: column;
+    border-radius: var(--image-radius);
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
 }
 
 .gallery-item img {
-    border-radius: 12px;
+    border-radius: var(--image-radius);
     width: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
@@ -265,8 +289,476 @@ h1 {
 }
 
 .gallery-caption {
-    margin-top: 1rem;
-    font-size: 0.95rem;
+    margin-top: 0.75rem;
+    padding: 0 0.25rem;
+    font-size: 0.92rem;
     color: var(--color-text-gray);
     text-align: center;
+}
+
+/* ── Private Setting Section ── */
+.private-setting-section {
+    background-color: #4C6A50;
+    width: 100%;
+    padding: var(--section-padding-y) var(--section-padding-x);
+}
+
+.private-setting-inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--gap-md);
+    align-items: start;
+}
+
+/* Left column */
+.ps-left {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.ps-label {
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.ps-heading {
+    font-family: 'Abyssinica SIL', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 400;
+    line-height: 1.25;
+    color: #ffffff;
+    max-width: 480px;
+}
+
+.ps-image-left {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--image-radius);
+    overflow: hidden;
+    box-shadow: 0 6px 28px rgba(0,0,0,0.2);
+}
+
+/* Right column */
+.ps-right {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+}
+
+.ps-image-right {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--image-radius);
+    overflow: hidden;
+    box-shadow: 0 6px 28px rgba(0,0,0,0.2);
+}
+
+.ps-description {
+    font-family: var(--font-body);
+    font-size: 0.97rem;
+    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.82);
+    max-width: 440px;
+}
+
+.ps-discover-btn {
+    display: inline-block;
+    align-self: flex-start;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    color: #ffffff;
+    padding: 0.65rem 1.5rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.ps-discover-btn:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    border-color: #ffffff;
+}
+
+/* ── Rooms & Amenities Section ── */
+.ra-section {
+    background-color: var(--color-white);
+    width: 100%;
+    padding: var(--section-padding-y) var(--section-padding-x);
+}
+
+.ra-inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--gap-md);
+    align-items: center;
+}
+
+/* Left: image */
+.ra-image-col {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--image-radius);
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    background-color: var(--color-gray-light);
+}
+
+.ra-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.ra-img-placeholder {
+    width: 100%;
+    height: 100%;
+    background-color: #e8ece8;
+    border-radius: var(--image-radius);
+}
+
+/* Right: content */
+.ra-content-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding-left: 1rem;
+}
+
+.ra-label {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #4a4a4a;
+}
+
+.ra-heading {
+    font-family: 'Abyssinica SIL', serif;
+    font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--color-text-main);
+    margin: 0;
+}
+
+.ra-description {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--color-text-gray);
+    max-width: 420px;
+    margin: 0;
+}
+
+.ra-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.ra-feature-title {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--color-text-main);
+    margin-bottom: 0.4rem;
+}
+
+.ra-feature-desc {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--color-text-gray);
+    margin: 0;
+}
+
+.ra-discover-btn {
+    display: inline-block;
+    align-self: flex-start;
+    border: 1px solid #b0b0b0;
+    color: var(--color-text-main);
+    padding: 0.55rem 1.4rem;
+    border-radius: 4px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    margin-top: 0.5rem;
+}
+
+.ra-discover-btn:hover {
+    background-color: var(--color-gray-light);
+    border-color: #888;
+}
+
+/* ── Retreats & Gatherings Section ── */
+.rg-section {
+    background-color: #4C6A50;
+    width: 100%;
+    padding: var(--section-padding-y) var(--section-padding-x);
+}
+
+.rg-inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--gap-md);
+    align-items: center;
+}
+
+/* Left: content */
+.rg-content-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding-right: 1rem;
+}
+
+.rg-label {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ffffff;
+}
+
+.rg-heading {
+    font-family: 'Abyssinica SIL', serif;
+    font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+    font-weight: 400;
+    line-height: 1.25;
+    color: #ffffff;
+    margin: 0;
+}
+
+.rg-description {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 0.93rem;
+    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.78);
+    max-width: 440px;
+    margin: 0;
+}
+
+.rg-buttons {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.rg-btn-primary {
+    display: inline-block;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    color: #ffffff;
+    padding: 0.55rem 1.4rem;
+    border-radius: 4px;
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.rg-btn-primary:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    border-color: #ffffff;
+}
+
+.rg-btn-text {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.75);
+    letter-spacing: 0.02em;
+    transition: color 0.2s ease;
+}
+
+.rg-btn-text:hover {
+    color: #ffffff;
+}
+
+/* Right: image + caption */
+.rg-image-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.rg-image-wrapper {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--image-radius);
+    overflow: hidden;
+    box-shadow: 0 6px 28px rgba(0, 0, 0, 0.25);
+}
+
+.rg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.rg-caption {
+    padding: 0 0.25rem;
+}
+
+.rg-caption-title {
+    font-family: 'Abyssinica SIL', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: #ffffff;
+    margin-bottom: 0.4rem;
+}
+
+.rg-caption-desc {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+}
+
+/* ── Responsive Breakpoints ── */
+
+/* Tablet: 768px – 1024px */
+@media (max-width: 1024px) {
+    .hero-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .hero-left {
+        padding-right: 0;
+    }
+
+    .hero-image-wrapper {
+        max-width: 100%;
+    }
+
+    .private-setting-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .ps-heading {
+        max-width: 100%;
+    }
+
+    .ps-description {
+        max-width: 100%;
+    }
+
+    .ra-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .ra-description {
+        max-width: 100%;
+    }
+
+    .ra-content-col {
+        padding-left: 0;
+    }
+
+    .rg-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .rg-content-col {
+        padding-right: 0;
+    }
+
+    .rg-description {
+        max-width: 100%;
+    }
+
+    .hero-stats {
+        gap: 1.5rem;
+        justify-content: center;
+    }
+}
+
+/* Mobile: up to 768px */
+@media (max-width: 768px) {
+    .main-header {
+        padding: 1rem 1.25rem;
+    }
+
+    .main-nav ul {
+        gap: 1.2rem;
+    }
+
+    .main-nav li:not(:last-child) {
+        display: none; /* hide nav links on small screens, keep Book Now */
+    }
+
+    .hero-section {
+        padding-top: 3rem;
+    }
+
+    .hero-stats {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.5rem 2rem;
+        padding: 2rem 1.5rem;
+    }
+
+    .stat-divider {
+        display: none;
+    }
+
+    .stat-item {
+        flex: 0 0 40%;
+    }
+
+    .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    .ps-left,
+    .ps-right {
+        gap: 1.25rem;
+    }
+
+    .ra-features {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+/* Small mobile: up to 480px */
+@media (max-width: 480px) {
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+        text-align: center;
+    }
+
+    .stat-item {
+        flex: 0 0 45%;
+    }
 }

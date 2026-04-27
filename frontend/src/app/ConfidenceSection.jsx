@@ -1,9 +1,9 @@
 import Image from 'next/image';
 
 const DEFAULT_ITEMS = [
-  { text: "Choose your dates and book the villa", imagePath: "http://127.0.0.1:8000/media/images/b1.jpg" },
-  { text: "Direct communication with owners", imagePath: "http://127.0.0.1:8000/media/images/b2.jpg" },
-  { text: "Trusted by guests returning each year", imagePath: "http://127.0.0.1:8000/media/images/b3.jpg" }
+  { text: "Choose your dates and book the villa", imagePath: "/images/b1.jpg" },
+  { text: "Direct communication with owners", imagePath: "/images/b2.jpg" },
+  { text: "Trusted by guests returning each year", imagePath: "/images/b3.jpg" }
 ];
 
 export default function ConfidenceSection({ heading, items }) {

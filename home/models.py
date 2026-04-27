@@ -386,6 +386,137 @@ class HomePage(Page):
     # Book With Confidence
     bwc_heading = models.CharField(max_length=255, blank=True, null=True, default="Book With Confidence")
 
+    # Get in Touch section fields
+    git_label = models.CharField(
+        max_length=100, blank=True, null=True,
+        default="Connect",
+        help_text="Small label above the heading (e.g. 'Connect')"
+    )
+    git_heading = models.CharField(
+        max_length=255, blank=True, null=True,
+        default="Get in touch",
+        help_text="Main heading for the Get in Touch section"
+    )
+    git_subheading = models.CharField(
+        max_length=255, blank=True, null=True,
+        default="We respond to inquiries within one business day",
+        help_text="Subheading / response time note"
+    )
+    git_email_label = models.CharField(
+        max_length=100, blank=True, null=True,
+        default="Email",
+        help_text="Label for the email block"
+    )
+    git_email_desc = models.CharField(
+        max_length=255, blank=True, null=True,
+        default="For reservations and questions",
+        help_text="Short description under Email label"
+    )
+    git_email = models.EmailField(
+        blank=True, null=True,
+        default="contact@maisontropez.com",
+        help_text="Contact email address"
+    )
+    git_phone_label = models.CharField(
+        max_length=100, blank=True, null=True,
+        default="Phone",
+        help_text="Label for the phone block"
+    )
+    git_phone_desc = models.CharField(
+        max_length=255, blank=True, null=True,
+        default="Reach us during business hours",
+        help_text="Short description under Phone label"
+    )
+    git_phone = models.CharField(
+        max_length=50, blank=True, null=True,
+        default="+33 07712 862823",
+        help_text="Contact phone number"
+    )
+    git_location_label = models.CharField(
+        max_length=100, blank=True, null=True,
+        default="Location",
+        help_text="Label for the location block"
+    )
+    git_location = models.CharField(
+        max_length=255, blank=True, null=True,
+        default="Cogolin, Provence-Alpes-Côte d'Azur, France",
+        help_text="Location description"
+    )
+    git_map_url = models.URLField(
+        blank=True, null=True,
+        help_text="Google Maps URL for 'View on map' link"
+    )
+
+    # Other Options (Scottish Retreat) section fields
+    oor_label = models.CharField(
+        max_length=100, blank=True, null=True,
+        default="Other Options",
+        help_text="Small label above the heading"
+    )
+    oor_heading = models.CharField(
+        max_length=255, blank=True, null=True,
+        default="Discover our Scottish retreat",
+        help_text="Main heading"
+    )
+    oor_description = models.TextField(
+        blank=True, null=True,
+        default="We also welcome guests to our villa in the Scottish Highlands.",
+        help_text="Short description paragraph"
+    )
+    oor_button_text = models.CharField(
+        max_length=80, blank=True, null=True,
+        default="Explore",
+        help_text="Button label"
+    )
+    oor_button_url = models.URLField(
+        blank=True, null=True,
+        help_text="URL for the Explore button"
+    )
+    oor_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True, blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text="Property image displayed on the left"
+    )
+
+    # Prefer to Book via a Platform section
+    pbp_heading = models.CharField(
+        max_length=255, blank=True, null=True,
+        default="Prefer to book via a platform",
+        help_text="Main heading for the 'Prefer to book via a platform' section"
+    )
+    pbp_description = models.TextField(
+        blank=True, null=True,
+        default="You can also find us on Airbnb or Booking.com if you prefer, while still enjoying the same experience and service.",
+        help_text="Subtitle / description text"
+    )
+    pbp_btn1_text = models.CharField(
+        max_length=80, blank=True, null=True,
+        default="Airbnb",
+        help_text="Label for the first platform button"
+    )
+    pbp_btn1_url = models.URLField(
+        blank=True, null=True,
+        help_text="URL for the Airbnb listing"
+    )
+    pbp_btn2_text = models.CharField(
+        max_length=80, blank=True, null=True,
+        default="Booking.com",
+        help_text="Label for the second platform button"
+    )
+    pbp_btn2_url = models.URLField(
+        blank=True, null=True,
+        help_text="URL for the Booking.com listing"
+    )
+    pbp_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True, blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text="Large image displayed below the text in this section"
+    )
+
     content_panels = Page.content_panels + [
         MultiFieldPanel([
             FieldPanel('hero_title'),
@@ -477,6 +608,37 @@ class HomePage(Page):
             FieldPanel('bwc_heading'),
         ], heading="Book With Confidence Section"),
         InlinePanel('bwc_items', label="Book With Confidence Items"),
+        MultiFieldPanel([
+            FieldPanel('pbp_heading'),
+            FieldPanel('pbp_description'),
+            FieldPanel('pbp_btn1_text'),
+            FieldPanel('pbp_btn1_url'),
+            FieldPanel('pbp_btn2_text'),
+            FieldPanel('pbp_btn2_url'),
+            FieldPanel('pbp_image'),
+        ], heading="Prefer to Book via a Platform Section"),
+        MultiFieldPanel([
+            FieldPanel('git_label'),
+            FieldPanel('git_heading'),
+            FieldPanel('git_subheading'),
+            FieldPanel('git_email_label'),
+            FieldPanel('git_email_desc'),
+            FieldPanel('git_email'),
+            FieldPanel('git_phone_label'),
+            FieldPanel('git_phone_desc'),
+            FieldPanel('git_phone'),
+            FieldPanel('git_location_label'),
+            FieldPanel('git_location'),
+            FieldPanel('git_map_url'),
+        ], heading="Get in Touch Section"),
+        MultiFieldPanel([
+            FieldPanel('oor_label'),
+            FieldPanel('oor_heading'),
+            FieldPanel('oor_description'),
+            FieldPanel('oor_button_text'),
+            FieldPanel('oor_button_url'),
+            FieldPanel('oor_image'),
+        ], heading="Other Options Section"),
     ]
 
     api_fields = [
@@ -546,4 +708,29 @@ class HomePage(Page):
         APIField('why_benefits'),
         APIField('bwc_heading'),
         APIField('bwc_items'),
+        APIField('pbp_heading'),
+        APIField('pbp_description'),
+        APIField('pbp_btn1_text'),
+        APIField('pbp_btn1_url'),
+        APIField('pbp_btn2_text'),
+        APIField('pbp_btn2_url'),
+        APIField('pbp_image', serializer=ImageRenditionField('original')),
+        APIField('git_label'),
+        APIField('git_heading'),
+        APIField('git_subheading'),
+        APIField('git_email_label'),
+        APIField('git_email_desc'),
+        APIField('git_email'),
+        APIField('git_phone_label'),
+        APIField('git_phone_desc'),
+        APIField('git_phone'),
+        APIField('git_location_label'),
+        APIField('git_location'),
+        APIField('git_map_url'),
+        APIField('oor_label'),
+        APIField('oor_heading'),
+        APIField('oor_description'),
+        APIField('oor_button_text'),
+        APIField('oor_button_url'),
+        APIField('oor_image', serializer=ImageRenditionField('original')),
     ]

@@ -11,7 +11,7 @@ export default function WhyBookDirectly({ heading, image, btn1Text, btn2Text, be
   const displayBenefits = (benefits && benefits.length > 0) ? benefits : DEFAULT_BENEFITS;
   const imgUrl = image?.url 
     ? (image.url.startsWith('http') ? image.url : `http://127.0.0.1:8000${image.url}`)
-    : "http://127.0.0.1:8000/media/images/living1.avif";
+    : "/images/living1.avif";
 
   return (
     <section className="why-book-section">

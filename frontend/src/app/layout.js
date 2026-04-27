@@ -1,6 +1,8 @@
 import './globals.css';
 import Image from 'next/image';
 
+import Footer from './Footer';
+
 export const metadata = {
   title: 'Maison Tropez',
   description: 'A private villa near Saint Tropez',
@@ -42,6 +44,7 @@ export default function RootLayout({ children }) {
           </div>
         </header>
         {children}
+        <Footer />
       </body>
     </html>
   );

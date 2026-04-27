@@ -1,15 +1,19 @@
 import Image from 'next/image';
+import HeroSection from './HeroSection';
 import HomeComfortsGallery from './HomeComfortsGallery';
 import ReviewsSection from './ReviewsSection';
 import BookingSection from './BookingSection';
 import StepsSection from './StepsSection';
 import WhyBookDirectly from './WhyBookDirectly';
 import ConfidenceSection from './ConfidenceSection';
+import PlatformBookingSection from './PlatformBookingSection';
+import GetInTouchSection from './GetInTouchSection';
+import OtherOptionsSection from './OtherOptionsSection';
 
 async function getPageData() {
   try {
     const res = await fetch(
-      'http://127.0.0.1:8000/api/v2/pages/?type=home.HomePage&fields=hero_title,hero_description,hero_fine_print,hero_image,gallery_images,ps_label,ps_heading,ps_description,ps_image_left,ps_image_right,ra_label,ra_heading,ra_description,ra_feature1_title,ra_feature1_desc,ra_feature2_title,ra_feature2_desc,ra_image,ra_button_text,rg_label,rg_heading,rg_description,rg_button1_text,rg_button2_text,rg_image,rg_image_caption_title,rg_image_caption_desc,hc_label,hc_top_heading,hc_top_description,hc_top_button,hc_bottom_heading,hc_bottom_description,home_comforts_images,olp_label,olp_heading,olp_description_1,olp_description_2,olp_button_text,olp_outdoor_image,olp_outdoor_title,olp_outdoor_desc,olp_pool_image,olp_pool_title,olp_pool_desc,sur_label,sur_heading,sur_description,sur_button_text,sur_image_left,sur_image_right,rev_heading,rev_description,reviews,book_label,book_heading,book_description,whn_heading,whn_steps,why_heading,why_image,why_btn1_text,why_btn2_text,why_benefits,bwc_heading,bwc_items',
+      'http://127.0.0.1:8000/api/v2/pages/?type=home.HomePage&fields=hero_title,hero_description,hero_fine_print,hero_image,gallery_images,ps_label,ps_heading,ps_description,ps_image_left,ps_image_right,ra_label,ra_heading,ra_description,ra_feature1_title,ra_feature1_desc,ra_feature2_title,ra_feature2_desc,ra_image,ra_button_text,rg_label,rg_heading,rg_description,rg_button1_text,rg_button2_text,rg_image,rg_image_caption_title,rg_image_caption_desc,hc_label,hc_top_heading,hc_top_description,hc_top_button,hc_bottom_heading,hc_bottom_description,home_comforts_images,olp_label,olp_heading,olp_description_1,olp_description_2,olp_button_text,olp_outdoor_image,olp_outdoor_title,olp_outdoor_desc,olp_pool_image,olp_pool_title,olp_pool_desc,sur_label,sur_heading,sur_description,sur_button_text,sur_image_left,sur_image_right,rev_heading,rev_description,reviews,book_label,book_heading,book_description,whn_heading,whn_steps,why_heading,why_image,why_btn1_text,why_btn2_text,why_benefits,bwc_heading,bwc_items,pbp_heading,pbp_description,pbp_btn1_text,pbp_btn1_url,pbp_btn2_text,pbp_btn2_url,pbp_image,git_label,git_heading,git_subheading,git_email_label,git_email_desc,git_email,git_phone_label,git_phone_desc,git_phone,git_location_label,git_location,git_map_url,oor_label,oor_heading,oor_description,oor_button_text,oor_button_url,oor_image',
       { cache: 'no-store' }
     );
     if (!res.ok) return null;
@@ -49,7 +53,6 @@ export default async function HomePage() {
   const psImageLeftUrl = page?.ps_image_left?.url
     ? (page.ps_image_left.url.startsWith('http') ? page.ps_image_left.url : `http://127.0.0.1:8000${page.ps_image_left.url}`)
     : '/images/pic6.png';
-
   const psImageRightUrl = page?.ps_image_right?.url
     ? (page.ps_image_right.url.startsWith('http') ? page.ps_image_right.url : `http://127.0.0.1:8000${page.ps_image_right.url}`)
     : '/images/pic1.png';
@@ -163,44 +166,47 @@ export default async function HomePage() {
   const bwcHeading = page?.bwc_heading;
   const bwcItems = page?.bwc_items || [];
 
+  // Prefer to book via a platform section
+  const pbpHeading = page?.pbp_heading;
+  const pbpDescription = page?.pbp_description;
+  const pbpBtn1Text = page?.pbp_btn1_text;
+  const pbpBtn1Url = page?.pbp_btn1_url;
+  const pbpBtn2Text = page?.pbp_btn2_text;
+  const pbpBtn2Url = page?.pbp_btn2_url;
+  const pbpImage = page?.pbp_image?.url
+    ? (page.pbp_image.url.startsWith('http') ? page.pbp_image.url : `http://127.0.0.1:8000${page.pbp_image.url}`)
+    : null;
+
+  // Get in Touch section
+  const gitLabel = page?.git_label;
+  const gitHeading = page?.git_heading;
+  const gitSubheading = page?.git_subheading;
+  const gitEmailLabel = page?.git_email_label;
+  const gitEmailDesc = page?.git_email_desc;
+  const gitEmail = page?.git_email;
+  const gitPhoneLabel = page?.git_phone_label;
+  const gitPhoneDesc = page?.git_phone_desc;
+  const gitPhone = page?.git_phone;
+  const gitLocationLabel = page?.git_location_label;
+  const gitLocation = page?.git_location;
+  const gitMapUrl = page?.git_map_url;
+
+  // Other Options section
+  const oorLabel = page?.oor_label;
+  const oorHeading = page?.oor_heading;
+  const oorDescription = page?.oor_description;
+  const oorButtonText = page?.oor_button_text;
+  const oorButtonUrl = page?.oor_button_url;
+  const oorImage = page?.oor_image;
+
   return (
     <main className="landing-page">
-      <section className="hero-section">
-        <div className="hero-content">
-          <div className="hero-left">
-            <h1 className="hero-title">{heroTitle}</h1>
-          </div>
-
-          <div className="hero-right">
-            <p className="hero-description">{heroDescription}</p>
-
-            <div className="hero-buttons">
-              <a href="#" className="btn-primary">Check availability</a>
-              <a href="#" className="btn-secondary">Explore the villa</a>
-            </div>
-
-            <p className="hero-fine-print">{heroFinePrint}</p>
-
-            <div className="hero-image-wrapper">
-              {heroImageUrl ? (
-                <Image
-                  src={heroImageUrl}
-                  alt="Villa hero image"
-                  className="hero-img"
-                  width={800}
-                  height={800}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  priority
-                  unoptimized
-                />
-              ) : (
-                <div style={{ width: '100%', height: '100%', background: '#f5f5f5', borderRadius: '12px' }} />
-              )}
-            </div>
-          </div>
-        </div>
-
-      </section>
+      <HeroSection 
+        title={heroTitle}
+        description={heroDescription}
+        finePrint={heroFinePrint}
+        imageUrl={heroImageUrl}
+      />
 
       <div className="stats-wrapper" style={{ backgroundColor: '#DEE3DE', width: '100%' }}>
         <div className="hero-stats" style={{ maxWidth: '1400px', margin: '0 auto', borderTop: 'none' }}>
@@ -516,6 +522,40 @@ export default async function HomePage() {
           items={bwcItems}
         />
       </div>
+
+      <PlatformBookingSection 
+        heading={pbpHeading}
+        description={pbpDescription}
+        btn1Text={pbpBtn1Text}
+        btn1Url={pbpBtn1Url}
+        btn2Text={pbpBtn2Text}
+        btn2Url={pbpBtn2Url}
+        image={pbpImage}
+      />
+
+      <GetInTouchSection
+        label={gitLabel}
+        heading={gitHeading}
+        subheading={gitSubheading}
+        emailLabel={gitEmailLabel}
+        emailDesc={gitEmailDesc}
+        email={gitEmail}
+        phoneLabel={gitPhoneLabel}
+        phoneDesc={gitPhoneDesc}
+        phone={gitPhone}
+        locationLabel={gitLocationLabel}
+        location={gitLocation}
+        mapUrl={gitMapUrl}
+      />
+
+      <OtherOptionsSection
+        label={oorLabel}
+        heading={oorHeading}
+        description={oorDescription}
+        buttonText={oorButtonText}
+        buttonUrl={oorButtonUrl}
+        image={oorImage}
+      />
 
     </main>
 

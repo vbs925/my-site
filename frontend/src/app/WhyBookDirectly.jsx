@@ -10,7 +10,7 @@ const DEFAULT_BENEFITS = [
 export default function WhyBookDirectly({ heading, image, btn1Text, btn2Text, benefits }) {
   const displayBenefits = (benefits && benefits.length > 0) ? benefits : DEFAULT_BENEFITS;
   const imgUrl = image?.url 
-    ? (image.url.startsWith('http') ? image.url : `http://127.0.0.1:8000${image.url}`)
+    ? (image.url.startsWith('http') ? image.url : `${process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}`}${image.url}`)
     : "/images/living1.avif";
 
   return (

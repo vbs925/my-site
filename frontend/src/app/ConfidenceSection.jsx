@@ -17,7 +17,7 @@ export default function ConfidenceSection({ heading, items }) {
         <div className="conf-grid">
           {displayItems.map((item, i) => {
             const imgUrl = item.image?.url 
-              ? (item.image.url.startsWith('http') ? item.image.url : `http://127.0.0.1:8000${item.image.url}`)
+              ? (item.image.url.startsWith('http') ? item.image.url : `${process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}`}${item.image.url}`)
               : item.imagePath;
 
             return (

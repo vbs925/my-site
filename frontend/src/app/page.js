@@ -9,11 +9,13 @@ import ConfidenceSection from './ConfidenceSection';
 import PlatformBookingSection from './PlatformBookingSection';
 import GetInTouchSection from './GetInTouchSection';
 import OtherOptionsSection from './OtherOptionsSection';
+import ScrollReveal from './ScrollReveal';
+import RetreatsGatheringsSection from './RetreatsGatheringsSection';
 
 async function getPageData() {
   try {
     const res = await fetch(
-      'http://127.0.0.1:8000/api/v2/pages/?type=home.HomePage&fields=hero_title,hero_description,hero_fine_print,hero_image,gallery_images,ps_label,ps_heading,ps_description,ps_image_left,ps_image_right,ra_label,ra_heading,ra_description,ra_feature1_title,ra_feature1_desc,ra_feature2_title,ra_feature2_desc,ra_image,ra_button_text,rg_label,rg_heading,rg_description,rg_button1_text,rg_button2_text,rg_image,rg_image_caption_title,rg_image_caption_desc,hc_label,hc_top_heading,hc_top_description,hc_top_button,hc_bottom_heading,hc_bottom_description,home_comforts_images,olp_label,olp_heading,olp_description_1,olp_description_2,olp_button_text,olp_outdoor_image,olp_outdoor_title,olp_outdoor_desc,olp_pool_image,olp_pool_title,olp_pool_desc,sur_label,sur_heading,sur_description,sur_button_text,sur_image_left,sur_image_right,rev_heading,rev_description,reviews,book_label,book_heading,book_description,whn_heading,whn_steps,why_heading,why_image,why_btn1_text,why_btn2_text,why_benefits,bwc_heading,bwc_items,pbp_heading,pbp_description,pbp_btn1_text,pbp_btn1_url,pbp_btn2_text,pbp_btn2_url,pbp_image,git_label,git_heading,git_subheading,git_email_label,git_email_desc,git_email,git_phone_label,git_phone_desc,git_phone,git_location_label,git_location,git_map_url,oor_label,oor_heading,oor_description,oor_button_text,oor_button_url,oor_image',
+      `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v2/pages/?type=home.HomePage&fields=hero_title,hero_description,hero_fine_print,hero_image,gallery_images,ps_label,ps_heading,ps_description,ps_image_left,ps_image_right,ra_label,ra_heading,ra_description,ra_feature1_title,ra_feature1_desc,ra_feature2_title,ra_feature2_desc,ra_image,ra_button_text,rg_label,rg_heading,rg_description,rg_button1_text,rg_button2_text,rg_image,rg_image_caption_title,rg_image_caption_desc,hc_label,hc_top_heading,hc_top_description,hc_top_button,hc_bottom_heading,hc_bottom_description,home_comforts_images,olp_label,olp_heading,olp_description_1,olp_description_2,olp_button_text,olp_outdoor_image,olp_outdoor_title,olp_outdoor_desc,olp_pool_image,olp_pool_title,olp_pool_desc,sur_label,sur_heading,sur_description,sur_button_text,sur_image_left,sur_image_right,rev_heading,rev_description,reviews,book_label,book_heading,book_description,whn_heading,whn_steps,why_heading,why_image,why_btn1_text,why_btn2_text,why_benefits,bwc_heading,bwc_items,pbp_heading,pbp_description,pbp_btn1_text,pbp_btn1_url,pbp_btn2_text,pbp_btn2_url,pbp_image,git_label,git_heading,git_subheading,git_email_label,git_email_desc,git_email,git_phone_label,git_phone_desc,git_phone,git_location_label,git_location,git_map_url,oor_label,oor_heading,oor_description,oor_button_text,oor_button_url,oor_image`,
       { cache: 'no-store' }
     );
     if (!res.ok) return null;
@@ -40,7 +42,7 @@ export default async function HomePage() {
     "*Peak summer weeks are limited and typically book several months in advance starting at £7,000.";
 
   const heroImageUrl = page?.hero_image?.meta?.download_url
-    ? `http://127.0.0.1:8000${page.hero_image.meta.download_url}`
+    ? `${process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}`}${page.hero_image.meta.download_url}`
     : null;
 
   const galleryImages = page?.gallery_images ?? [];
@@ -51,10 +53,10 @@ export default async function HomePage() {
   const psDescription = page?.ps_description || 'Hidden among ancient oaks, yet just minutes from Saint Tropez and Pampelonne Beach. Begin your day in complete stillness, and lit with sunset on the terrace or dinner and dancing by the sea along the Riviera coastline.';
 
   const psImageLeftUrl = page?.ps_image_left?.url
-    ? (page.ps_image_left.url.startsWith('http') ? page.ps_image_left.url : `http://127.0.0.1:8000${page.ps_image_left.url}`)
+    ? (page.ps_image_left.url.startsWith('http') ? page.ps_image_left.url : `${process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}`}${page.ps_image_left.url}`)
     : '/images/pic6.png';
   const psImageRightUrl = page?.ps_image_right?.url
-    ? (page.ps_image_right.url.startsWith('http') ? page.ps_image_right.url : `http://127.0.0.1:8000${page.ps_image_right.url}`)
+    ? (page.ps_image_right.url.startsWith('http') ? page.ps_image_right.url : `${process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}`}${page.ps_image_right.url}`)
     : '/images/pic1.png';
 
   // Rooms & Amenities section — CMS data with fallbacks
@@ -67,20 +69,41 @@ export default async function HomePage() {
   const raFeature2Desc = page?.ra_feature2_desc || 'Calm, private, and beautifully simple. Designed for deep rest and slow mornings.';
   const raButtonText = page?.ra_button_text || 'Discover';
   const raImageUrl = page?.ra_image?.url
-    ? (page.ra_image.url.startsWith('http') ? page.ra_image.url : `http://127.0.0.1:8000${page.ra_image.url}`)
+    ? (page.ra_image.url.startsWith('http') ? page.ra_image.url : `${process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}`}${page.ra_image.url}`)
     : '/images/living1.avif';
 
   // Retreats & Gatherings section — CMS data with fallbacks
   const rgLabel = page?.rg_label || 'Retreats & Gatherings';
-  const rgHeading = page?.rg_heading || 'Host your vision in a setting made for it';
-  const rgDescription = page?.rg_description || 'Maison Tropez welcomes more than travelers. Yoga instructors bring their students here to practice among the oaks. Artists and writers organize workshops in the quiet light. Families gather for retreats that matter. The villa\'s generous spaces and peaceful setting become the canvas for whatever you wish to create.';
   const rgButton1Text = page?.rg_button1_text || 'Inquire';
-  const rgButton2Text = page?.rg_button2_text || 'Next';
-  const rgImageCaptionTitle = page?.rg_image_caption_title || 'Yoga and wellness retreats';
-  const rgImageCaptionDesc = page?.rg_image_caption_desc || 'The forest and silence create the perfect foundation for practice and restoration.';
   const rgImageUrl = page?.rg_image?.url
-    ? (page.rg_image.url.startsWith('http') ? page.rg_image.url : `http://127.0.0.1:8000${page.rg_image.url}`)
+    ? (page.rg_image.url.startsWith('http') ? page.rg_image.url : `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}${page.rg_image.url}`)
     : '/images/pplpic.jpg';
+
+  // Build slides array — only image + caption changes
+  const rgHeading = page?.rg_heading || 'Host your vision in a setting made for it';
+  const rgDescription = page?.rg_description || 'Maison Tropez welcomes more than travelers. Yoga instructors bring their students here to practice among the oaks. Artists and writers organize workshops in the quiet light. Families gather for retreats that matter.';
+  const rgSlides = [
+    {
+      imageUrl: rgImageUrl,
+      captionTitle: page?.rg_image_caption_title || 'Yoga and wellness retreats',
+      captionDesc: page?.rg_image_caption_desc || 'The forest and silence create the perfect foundation for practice and restoration.',
+    },
+    {
+      imageUrl: '/images/ret1.png',
+      captionTitle: 'Creative workshops and gatherings',
+      captionDesc: 'Writers, artists, and makers find inspiration in the landscape and space here..',
+    },
+    {
+      imageUrl: '/images/ret2.png',
+      captionTitle: 'Seasonal events and celebrations',
+      captionDesc: 'Mark occasions that matter in a setting that honors them with grace.',
+    },
+    {
+      imageUrl: '/images/ret3.png',
+      captionTitle: 'Available dates for your retreat',
+      captionDesc: 'Check the calendar to find when Maison Tropez can hold your gathering.',
+    },
+  ];
 
   // Home Comforts section — CMS data with fallbacks
   const hcLabel = page?.hc_label || 'Home Comforts';
@@ -94,7 +117,7 @@ export default async function HomePage() {
   const hcImages = (page?.home_comforts_images && page.home_comforts_images.length > 0)
     ? page.home_comforts_images.map(imgData => {
       const url = imgData.image?.url;
-      return url ? (url.startsWith('http') ? url : `http://127.0.0.1:8000${url}`) : null;
+      return url ? (url.startsWith('http') ? url : `${process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}`}${url}`) : null;
     }).filter(Boolean)
     : null;
 
@@ -110,11 +133,11 @@ export default async function HomePage() {
   const olpPoolDesc = page?.olp_pool_desc || 'Cool off, unwind, or spend the whole day poolside. This is where most memories are made.';
 
   const olpOutdoorImage = page?.olp_outdoor_image?.url
-    ? (page.olp_outdoor_image.url.startsWith('http') ? page.olp_outdoor_image.url : `http://127.0.0.1:8000${page.olp_outdoor_image.url}`)
+    ? (page.olp_outdoor_image.url.startsWith('http') ? page.olp_outdoor_image.url : `${process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}`}${page.olp_outdoor_image.url}`)
     : '/images/olpic.png';
 
   const olpPoolImage = page?.olp_pool_image?.url
-    ? (page.olp_pool_image.url.startsWith('http') ? page.olp_pool_image.url : `http://127.0.0.1:8000${page.olp_pool_image.url}`)
+    ? (page.olp_pool_image.url.startsWith('http') ? page.olp_pool_image.url : `${process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}`}${page.olp_pool_image.url}`)
     : '/images/poolpic.png';
 
   // Surroundings section — CMS data with fallbacks
@@ -124,11 +147,11 @@ export default async function HomePage() {
   const surButton = page?.sur_button_text || 'Explore';
 
   const surImageLeftUrl = page?.sur_image_left?.url
-    ? (page.sur_image_left.url.startsWith('http') ? page.sur_image_left.url : `http://127.0.0.1:8000${page.sur_image_left.url}`)
+    ? (page.sur_image_left.url.startsWith('http') ? page.sur_image_left.url : `${process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}`}${page.sur_image_left.url}`)
     : '/images/outpic.png';
 
   const surImageRightUrl = page?.sur_image_right?.url
-    ? (page.sur_image_right.url.startsWith('http') ? page.sur_image_right.url : `http://127.0.0.1:8000${page.sur_image_right.url}`)
+    ? (page.sur_image_right.url.startsWith('http') ? page.sur_image_right.url : `${process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}`}${page.sur_image_right.url}`)
     : '/images/pic.png';
 
   // Reviews section — CMS data with fallbacks
@@ -136,14 +159,14 @@ export default async function HomePage() {
   const revDescription = page?.rev_description || 'Guests return year after year for the calm, the setting, and the feeling of complete escape';
   const cmsReviews = (page?.reviews && page.reviews.length > 0)
     ? page.reviews.map(r => ({
-        stars: r.stars,
-        text: r.text,
-        author_name: r.author_name,
-        author_title: r.author_title,
-        img: r.author_image?.url
-          ? (r.author_image.url.startsWith('http') ? r.author_image.url : `http://127.0.0.1:8000${r.author_image.url}`)
-          : null,
-      }))
+      stars: r.stars,
+      text: r.text,
+      author_name: r.author_name,
+      author_title: r.author_title,
+      img: r.author_image?.url
+        ? (r.author_image.url.startsWith('http') ? r.author_image.url : `${process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}`}${r.author_image.url}`)
+        : null,
+    }))
     : null;
 
   // Planning & Booking section
@@ -174,7 +197,7 @@ export default async function HomePage() {
   const pbpBtn2Text = page?.pbp_btn2_text;
   const pbpBtn2Url = page?.pbp_btn2_url;
   const pbpImage = page?.pbp_image?.url
-    ? (page.pbp_image.url.startsWith('http') ? page.pbp_image.url : `http://127.0.0.1:8000${page.pbp_image.url}`)
+    ? (page.pbp_image.url.startsWith('http') ? page.pbp_image.url : `${process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}`}${page.pbp_image.url}`)
     : null;
 
   // Get in Touch section
@@ -201,7 +224,8 @@ export default async function HomePage() {
 
   return (
     <main className="landing-page">
-      <HeroSection 
+      <ScrollReveal />
+      <HeroSection
         title={heroTitle}
         description={heroDescription}
         finePrint={heroFinePrint}
@@ -216,7 +240,7 @@ export default async function HomePage() {
           </div>
           <div className="stat-divider"></div>
           <div className="stat-item"><span className="stat-number">3000</span>
-            <span className="stat-desc">m2 of Private Grounds</span></div>
+            <span className="stat-desc"> m² of Private Grounds</span></div>
           <div className="stat-divider"></div>
           <div className="stat-item"><span className="stat-number">4</span>
             <span className="stat-desc">Bedrooms sleeps 8</span></div>
@@ -235,7 +259,7 @@ export default async function HomePage() {
           <div className="gallery-grid">
             {galleryImages.map((item, index) => {
               const imgUrl = item?.image?.url
-                ? (item.image.url.startsWith('http') ? item.image.url : `http://127.0.0.1:8000${item.image.url}`)
+                ? (item.image.url.startsWith('http') ? item.image.url : `${process.env.NEXT_PUBLIC_API_URL || `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}`}${item.image.url}`)
                 : null;
               return (
                 <div key={index} className="gallery-item">
@@ -264,7 +288,7 @@ export default async function HomePage() {
           <div className="ps-left">
             <span className="ps-label">{psLabel}</span>
             <h2 className="ps-heading">{psHeading}</h2>
-            <div className="ps-image-left">
+            <div className="ps-image-left" data-reveal>
               <Image
                 src={psImageLeftUrl}
                 alt="Private setting left image"
@@ -277,7 +301,7 @@ export default async function HomePage() {
           </div>
 
           <div className="ps-right">
-            <div className="ps-image-right">
+            <div className="ps-image-right" data-reveal>
               <Image
                 src={psImageRightUrl}
                 alt="Private setting right image"
@@ -287,8 +311,8 @@ export default async function HomePage() {
                 unoptimized
               />
             </div>
-            <p className="ps-description">{psDescription}</p>
-            <a href="#" className="ps-discover-btn">Discover</a>
+            <p className="ps-description" data-reveal>{psDescription}</p>
+            <a href="#" className="ps-discover-btn" data-reveal>Discover</a>
           </div>
 
         </div>
@@ -296,7 +320,7 @@ export default async function HomePage() {
 
       {/* Rooms & Amenities Section */}
       <section className="ra-section">
-        <div className="ra-inner">
+        <div className="ra-inner" data-reveal>
 
           {/* Left: image */}
           <div className="ra-image-col">
@@ -339,41 +363,13 @@ export default async function HomePage() {
       </section>
 
       {/* Retreats & Gatherings Section */}
-      <section className="rg-section">
-        <div className="rg-inner">
-
-          {/* Left: label + heading + description + buttons */}
-          <div className="rg-content-col">
-            <span className="rg-label">{rgLabel}</span>
-            <h2 className="rg-heading">{rgHeading}</h2>
-            <p className="rg-description">{rgDescription}</p>
-            <div className="rg-buttons">
-              <a href="#" className="rg-btn-primary">{rgButton1Text}</a>
-              <a href="#" className="rg-btn-text">{rgButton2Text} &rsaquo;</a>
-            </div>
-          </div>
-
-          {/* Right: image + caption */}
-          <div className="rg-image-col">
-            <div className="rg-image-wrapper">
-              <Image
-                src={rgImageUrl}
-                alt="Retreats and gatherings image"
-                width={800}
-                height={600}
-                className="rg-img"
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                unoptimized
-              />
-            </div>
-            <div className="rg-caption">
-              <h3 className="rg-caption-title">{rgImageCaptionTitle}</h3>
-              <p className="rg-caption-desc">{rgImageCaptionDesc}</p>
-            </div>
-          </div>
-
-        </div>
-      </section>
+      <RetreatsGatheringsSection
+        slides={rgSlides}
+        label={rgLabel}
+        heading={rgHeading}
+        description={rgDescription}
+        button1Text={rgButton1Text}
+      />
 
       {/* Home Comforts Section */}
       <section className="hc-section">
@@ -429,7 +425,7 @@ export default async function HomePage() {
               <a href="#" className="olp-btn btn-primary-scd">{olpButton}</a>
             </div>
 
-            <div className="olp-card">
+            <div className="olp-card" data-reveal>
               <div className="olp-image-wrapper">
                 <Image src={olpOutdoorImage} alt={olpOutdoorTitle} fill unoptimized style={{ objectFit: 'cover' }} />
               </div>
@@ -442,7 +438,7 @@ export default async function HomePage() {
 
           {/* Right Column */}
           <div className="olp-col olp-col-right">
-            <div className="olp-card pool-card">
+            <div className="olp-card pool-card" data-reveal>
               <div className="olp-image-wrapper pool-image">
                 <Image src={olpPoolImage} alt={olpPoolTitle} fill unoptimized style={{ objectFit: 'cover' }} />
               </div>
@@ -465,14 +461,14 @@ export default async function HomePage() {
           {/* Images Layout (Left Column) */}
           <div className="sur-images-col">
             <div className="sur-inner-col sur-inner-left">
-              <div className="sur-image-left-wrapper">
+              <div className="sur-image-left-wrapper" data-reveal="zoom">
                 <Image src={surImageLeftUrl} alt="Surroundings" fill unoptimized style={{ objectFit: 'cover' }} />
               </div>
               <div className="sur-triangle" aria-hidden="true" />
             </div>
 
             <div className="sur-inner-col sur-inner-right">
-              <div className="sur-image-right-wrapper">
+              <div className="sur-image-right-wrapper" data-reveal="zoom">
                 <Image src={surImageRightUrl} alt="Surroundings Landscape" fill unoptimized style={{ objectFit: 'cover' }} />
               </div>
             </div>
@@ -498,18 +494,18 @@ export default async function HomePage() {
       />
 
       <div className="booking-flow-wrapper">
-        <BookingSection 
+        <BookingSection
           label={bookLabel}
           heading={bookHeading}
           description={bookDescription}
         />
 
-        <StepsSection 
+        <StepsSection
           heading={whnHeading}
           steps={whnSteps}
         />
 
-        <WhyBookDirectly 
+        <WhyBookDirectly
           heading={whyHeading}
           image={whyImage}
           btn1Text={whyBtn1}
@@ -517,13 +513,13 @@ export default async function HomePage() {
           benefits={whyBenefits}
         />
 
-        <ConfidenceSection 
+        <ConfidenceSection
           heading={bwcHeading}
           items={bwcItems}
         />
       </div>
 
-      <PlatformBookingSection 
+      <PlatformBookingSection
         heading={pbpHeading}
         description={pbpDescription}
         btn1Text={pbpBtn1Text}

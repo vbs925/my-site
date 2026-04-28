@@ -53,11 +53,17 @@ h1 {
     max-width: 500px;
     font-family: 'Abyssinica SIL', serif;
     text-align: left;
-    font-size: 50px;
+    font-size: 48px;
     font-style: normal;
     line-height: 110%;
     font-weight: 500;
     letter-spacing: 0.5px;
+    transform: translateY(10px);
+    transition: transform 1s ease-in-out;
+}
+
+.hero-section.scrolled .hero-title {
+    transform: translateY(-20px);
 }
 
 html {
@@ -162,11 +168,12 @@ html {
 }
 
 /* ── Hero Section ── */
+/* Animations refactored to transitions tied to scroll state */
 
 .hero-section {
     max-width: var(--container-max);
     margin: 0 auto;
-    padding: var(--section-padding-y) var(--section-padding-x) 0;
+    padding: var(--section-padding-y) var(--section-padding-x) var(--section-padding-y);
 }
 
 .hero-content {
@@ -193,6 +200,8 @@ html {
     margin-bottom: 1.75rem;
     line-height: 1.7;
     max-width: 95%;
+    margin-top: 0;
+    transition: margin-top 1s ease-in-out;
 }
 
 .hero-buttons {
@@ -210,26 +219,90 @@ html {
     margin-bottom: 2.5rem;
 }
 
+/* Old image wrapper — stays in the right column */
 .hero-image-wrapper {
     width: 100%;
-    max-width: 460px;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 16 / 9;
     border-radius: var(--image-radius);
     overflow: hidden;
     background-color: var(--color-gray-light);
     position: relative;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
     margin-top: 1rem;
+    max-height: 1000px;
+    transition: opacity 5s ease, max-height 1s ease, margin-top 7s ease;
+}
+
+/* New image wrapper — spans BOTH grid columns, hidden by default */
+/* Uses padding-bottom trick: height=0, padding grows to set aspect ratio */
+.hero-image-wrapper-new {
+    grid-column: 1 / -1;
+    width: 100%;
+    height: 0;
+    padding-bottom: 0;
+    border-radius: var(--image-radius);
+    overflow: hidden;
+    background-color: var(--color-gray-light);
+    position: relative;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    opacity: 0;
+    pointer-events: none;
+    transition: padding-bottom 0.5s ease, opacity 0.8s ease 0.3s, max-height 0.8s ease 0.3s;
 }
 
 .hero-img {
-    width: 720px;
-    height: 426.656px;
-    aspect-ratio: 111/64;
-    align-self: stretch;
-    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    object-position: center;
     color: transparent;
     border-radius: 0%;
+    transform: scale(1.3) translateX(30px);
+    transition: transform 0.3s ease, opacity 0.4s ease;
+}
+
+.hero-img-old {
+    opacity: 1;
+}
+
+.hero-img-new {
+    opacity: 0;
+    transform: scale(1.3) translateX(30px);
+    object-position: center;
+}
+
+/* ── Scroll Animations ── */
+.hero-section.scrolled .hero-description {
+    margin-top: 75px;
+}
+
+/* Collapse the hero-content bottom margin so no gap */
+.hero-section.scrolled .hero-content {
+    margin-bottom: 0;
+}
+
+/* Collapse old image so it takes zero space */
+.hero-section.scrolled .hero-image-wrapper {
+    opacity: 0;
+    max-height: 0;
+    margin-top: 0;
+}
+
+/* Reveal new full-width image — padding-bottom sets the 16:9 height responsively */
+.hero-section.scrolled .hero-image-wrapper-new {
+    padding-bottom: 56.25%;
+    /* 16:9 = 9/16 = 0.5625 = 56.25% */
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.hero-section.scrolled .hero-img-old {
+    opacity: 0;
+    transition: opacity 0.7s ease 0.2s;
+}
+
+.hero-section.scrolled .hero-img-new {
+    opacity: 1;
+    transform: scale(1) translateX(0);
 }
 
 /* ── Stats Section ── */
@@ -267,8 +340,8 @@ html {
 .stat-desc {
     display: block;
     font-family: 'Noto Sans', sans-serif;
-    font-size: 0.85rem;
-    color: var(--color-text-gray);
+    font-size: var(--Text-Sizes-Text-Medium, 15px);
+    color: black;
     line-height: 1.4;
     white-space: nowrap;
 }
@@ -353,7 +426,7 @@ html {
 .ps-heading {
     font-family: 'Abyssinica SIL', serif;
     text-align: left;
-    font-size: var(--Text-Sizes-Heading-2, 58px);
+    font-size: var(--Text-Sizes-Heading-2, 54px);
     font-style: normal;
     font-weight: 300;
     line-height: 120%;
@@ -367,6 +440,16 @@ html {
     border-radius: var(--image-radius);
     overflow: hidden;
     box-shadow: 0 6px 28px rgba(0, 0, 0, 0.2);
+    /* Scroll-reveal: start hidden below */
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ps-image-left.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* Right column */
@@ -382,6 +465,16 @@ html {
     border-radius: var(--image-radius);
     overflow: hidden;
     box-shadow: 0 6px 28px rgba(0, 0, 0, 0.2);
+    /* Scroll-reveal */
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ps-image-right.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .ps-description {
@@ -392,6 +485,16 @@ html {
     line-height: 140%;
     color: white;
     max-width: 440px;
+    /* Scroll-reveal */
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.1s,
+        transform 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
+}
+
+.ps-description.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .ps-discover-btn {
@@ -403,9 +506,19 @@ html {
     border-radius: 4px;
     font-weight: 500;
     font-size: 0.9rem;
-    font-weight: 500;
     letter-spacing: 0.04em;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
+    /* Scroll-reveal (hover transition appended after delay) */
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.2s,
+        transform 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.2s,
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.ps-discover-btn.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .ps-discover-btn:hover {
@@ -418,6 +531,7 @@ html {
     background-color: var(--color-white);
     width: 100%;
     padding: var(--section-padding-y) var(--section-padding-x);
+    overflow: hidden;
 }
 
 .ra-inner {
@@ -433,10 +547,26 @@ html {
 .ra-image-col {
     width: 100%;
     aspect-ratio: 4 / 3;
-    border-radius: var(--image-radius);
+    border-radius: 0;
     overflow: hidden;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
     background-color: var(--color-gray-light);
+    position: relative;
+    z-index: 5;
+    /* Scroll-reveal: Start huge, covering the section */
+    opacity: 0;
+    transform-origin: left center;
+    transform: scale(2.05);
+    transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1),
+        border-radius 1.5s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 1.2s ease;
+    will-change: transform, opacity, border-radius;
+}
+
+.ra-inner.visible .ra-image-col {
+    opacity: 1;
+    transform: scale(1);
+    border-radius: var(--image-radius);
 }
 
 .ra-img {
@@ -444,6 +574,14 @@ html {
     height: 100%;
     object-fit: cover;
     display: block;
+    /* Zoom out effect */
+    transform: scale(1.15);
+    transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+}
+
+.ra-inner.visible .ra-img {
+    transform: scale(1);
 }
 
 .ra-img-placeholder {
@@ -459,6 +597,17 @@ html {
     flex-direction: column;
     gap: 1.25rem;
     padding-left: 1rem;
+    /* Scroll-reveal */
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1) 0.4s,
+        transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.4s;
+    will-change: transform, opacity;
+}
+
+.ra-inner.visible .ra-content-col {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .ra-label {
@@ -623,15 +772,15 @@ html {
 .rg-image-col {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1rem;
 }
 
 .rg-image-wrapper {
     width: 100%;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 3 / 2;
     border-radius: var(--image-radius);
     overflow: hidden;
-    box-shadow: 0 6px 28px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .rg-img {
@@ -647,7 +796,7 @@ html {
 
 .rg-caption-title {
     font-family: 'Abyssinica SIL', serif;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 400;
     color: #ffffff;
     margin-bottom: 0.4rem;
@@ -659,6 +808,67 @@ html {
     line-height: 1.6;
     color: rgba(255, 255, 255, 0.7);
     margin: 0;
+}
+
+/* ── Retreats Slide Animation ── */
+@keyframes rgSlideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(48px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes rgSlideOutUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-48px);
+    }
+}
+
+/* Base state — visible */
+.rg-animate.rg-enter {
+    animation: rgSlideInUp 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Exiting upward on Next click */
+.rg-animate.rg-exit-up {
+    animation: rgSlideOutUp 0.38s cubic-bezier(0.55, 0, 1, 0.45) both;
+    pointer-events: none;
+}
+
+/* Next button — reset browser button defaults */
+.rg-next-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+/* Progress line indicator */
+.rg-progress-track {
+    width: 100%;
+    height: 1.5px;
+    background-color: rgba(255, 255, 255, 0.2);
+    margin-top: 1.25rem;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.rg-progress-fill {
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.85);
+    border-radius: 2px;
+    transition: width 0.4s ease;
 }
 
 /* ── Home Comforts Section ── */
@@ -1076,6 +1286,14 @@ html {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    opacity: 0;
+    transform: translateY(60px);
+    transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+}
+
+.olp-card.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .olp-image-wrapper {
@@ -1085,6 +1303,8 @@ html {
     border-radius: var(--image-radius);
     overflow: hidden;
     background-color: #f5f5f5;
+    min-height: 1px;
+    display: block;
 }
 
 .pool-card {
@@ -1163,6 +1383,8 @@ html {
     aspect-ratio: 1/1;
     border-radius: var(--image-radius);
     overflow: hidden;
+    min-height: 1px;
+    display: block;
 }
 
 .sur-triangle {
@@ -1180,6 +1402,8 @@ html {
     border-radius: var(--image-radius);
     overflow: hidden;
     margin-top: clamp(2rem, 10vw, 6rem);
+    min-height: 1px;
+    display: block;
 }
 
 .sur-content-col {
@@ -1232,6 +1456,25 @@ html {
 .sur-btn-outline:hover {
     background: var(--color-white);
     color: var(--color-text-main);
+}
+
+/* ── Surroundings zoom-reveal animation ── */
+[data-reveal="zoom"] {
+    opacity: 0;
+    transform: scale(1.12);
+    transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform, opacity;
+}
+
+[data-reveal="zoom"].visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Stagger the right image slightly */
+.sur-image-right-wrapper[data-reveal="zoom"] {
+    transition-delay: 0.15s;
 }
 
 /* ═══════════════════════════════════════
